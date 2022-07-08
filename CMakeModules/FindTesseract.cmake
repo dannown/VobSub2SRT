@@ -7,17 +7,20 @@ endif()
 find_path(Tesseract_INCLUDE_DIR tesseract/baseapi.h
   HINTS
   /usr/include
-  /usr/local/include)
+  /usr/local/include
+  /opt/homebrew/include)
 
 find_library(Tesseract_LIBRARIES NAMES tesseract_full tesseract_api tesseract
   HINTS
   /usr/lib
-  /usr/local/lib)
+  /usr/local/lib
+  /opt/homebrew/lib)
 
 find_library(Tiff_LIBRARY NAMES tiff
   HINTS
   /usr/lib
-  /usr/local/lib)
+  /usr/local/lib
+  /opt/homebrew/lib)
 
 if(BUILD_STATIC)
 # -llept -lgif -lwebp -ltiff -lpng -ljpeg -lz

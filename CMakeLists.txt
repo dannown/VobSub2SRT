@@ -1,8 +1,16 @@
 project(vobsub2srt)
 
-cmake_minimum_required(VERSION 2.6.4 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMakeModules)
+
+#### Detect MacOS architecture
+execute_process(
+        COMMAND uname -m
+        OUTPUT_VARIABLE OSX_ARCH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+set(CMAKE_OSX_ARCHITECTURES ${OSX_ARCH})
 
 if(NOT CMAKE_BUILD_TYPE)
     set(
@@ -53,13 +61,12 @@ include(CheckCXXCompilerFlag)
 include(CheckCXXSourceCompiles)
 include(CheckCXXSourceRuns)
 
-set(CMAKE_C_FLAGS "-std=gnu99")
-set(CMAKE_CXX_FLAGS "-ansi -pedantic -Wall -Wextra -Wno-long-long")
+#### Ignore the warning for mplayer sources that shift -1.
+set(CMAKE_C_FLAGS "-Wno-shift-negative-value")
+set(CMAKE_CXX_FLAGS "-ansi -pedantic -Wall -Wextra -Wno-long-long -std=gnu++11 -DINVERT_IMAGES")
 
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -mtune=native -march=native -DNDEBUG -fomit-frame-pointer -ffast-math") # TODO -Ofast GCC 4.6
-set(CMAKE_C_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
 set(CMAKE_CXX_FLAGS_DEBUG "-g3 -DDEBUG")
-set(CMAKE_C_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
 # TODO RelWithDebInfo MinSizeRel? maybe move -march=native -ffast-math etc. to a different build type
 
 find_package(Threads)
