@@ -218,7 +218,6 @@ int main(int argc, char **argv) {
   if (tesseract_data_path != TESSERACT_DEFAULT_PATH)
     tess_path = tesseract_data_path.c_str();
 
-  auto *tessBaseAPI = new tesseract::TessBaseAPI();
 #ifdef CONFIG_TESSERACT_NAMESPACE
   TessBaseAPI tess_base_api;
   if(tess_base_api.Init(tess_path, tess_lang) == -1) {
@@ -229,6 +228,7 @@ int main(int argc, char **argv) {
     tess_base_api.SetVariable("tessedit_char_blacklist", blacklist.c_str());
   }
 #else
+  auto *tessBaseAPI = new tesseract::TessBaseAPI();
   tessBaseAPI->Init(tess_path, tess_lang); // TODO params
   if(not blacklist.empty()) {
       tessBaseAPI->SetVariable("tessedit_char_blacklist", blacklist.c_str());
