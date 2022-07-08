@@ -1,5 +1,7 @@
 build/
 test/
+.idea/
+cmake-build-debug/
 /.dput.cf
 /doc/vobsub2srt.1.gz
 /ppa_config.cmake
